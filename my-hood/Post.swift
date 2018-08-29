@@ -9,9 +9,9 @@
 import Foundation
 
 class Post: NSObject, NSCoding {
-    private var _imagePath: String!
-    private var _postTitle: String!
-    private var _postDescription: String!
+    fileprivate var _imagePath: String!
+    fileprivate var _postTitle: String!
+    fileprivate var _postDescription: String!
     
     var imagePath: String {
         return _imagePath
@@ -37,14 +37,14 @@ class Post: NSObject, NSCoding {
     
     required convenience init?(coder aDecoder: NSCoder) {
         self.init()
-        self._imagePath = aDecoder.decodeObjectForKey("imagePath") as? String
-        self._postTitle = aDecoder.decodeObjectForKey("title") as? String
-        self._postDescription = aDecoder.decodeObjectForKey("description") as? String
+        self._imagePath = aDecoder.decodeObject(forKey: "imagePath") as? String
+        self._postTitle = aDecoder.decodeObject(forKey: "title") as? String
+        self._postDescription = aDecoder.decodeObject(forKey: "description") as? String
     }
     
-    func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encodeObject(self._imagePath, forKey: "imagePath")
-        aCoder.encodeObject(self._postTitle, forKey: "title")
-        aCoder.encodeObject(self._postDescription, forKey: "description")
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(self._imagePath, forKey: "imagePath")
+        aCoder.encode(self._postTitle, forKey: "title")
+        aCoder.encode(self._postDescription, forKey: "description")
     }
 }

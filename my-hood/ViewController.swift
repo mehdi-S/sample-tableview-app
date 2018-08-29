@@ -17,7 +17,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.delegate = self
         tableView.dataSource = self
         DataService.instance.loadPosts()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(onPostsLoaded(_:)), name: "postsLoaded", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(onPostsLoaded(_:)), name: NSNotification.Name(rawValue: "postsLoaded"), object: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -25,15 +25,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Dispose of any resources that can be recreated.
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let post = DataService.instance.loadedPosts[indexPath.row]
         
-        if let cell = tableView.dequeueReusableCellWithIdentifier("PostCell") as? PostCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell") as? PostCell {
             cell.configureCell(post)
             return cell
         } else {
@@ -44,15 +44,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 76.0
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return DataService.instance.loadedPosts.count
     }
 
-    func onPostsLoaded(notif: AnyObject) {
+    @objc func onPostsLoaded(_ notif: AnyObject) {
         tableView.reloadData()
     }
 }

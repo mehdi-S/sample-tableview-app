@@ -30,25 +30,25 @@ class addPostVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         // Dispose of any resources that can be recreated.
     }
 
-    @IBAction func makePostPressed(sender: UIButton!) {
-        if let title = titleField.text where titleField.text != "", let desc = descriptionField.text where descriptionField.text != "", let img = postImage.image {
+    @IBAction func makePostPressed(_ sender: UIButton!) {
+        if let title = titleField.text, titleField.text != "", let desc = descriptionField.text, descriptionField.text != "", let img = postImage.image {
             let imagePath = DataService.instance.saveImageAndCreatePath(img)
             let post = Post(imagePath: imagePath, title: title, description: desc)
             DataService.instance.addPost(post)
-            dismissViewControllerAnimated(true, completion: nil)
+            dismiss(animated: true, completion: nil)
         }
     }
-    @IBAction func cancelPressed(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func cancelPressed(_ sender: AnyObject) {
+        dismiss(animated: true, completion: nil)
     }
-    @IBAction func addImagePressed(sender: AnyObject) {
-        sender.setTitle("", forState: .Normal)
-        presentViewController(imagePicker, animated: true, completion: nil)
+    @IBAction func addImagePressed(_ sender: AnyObject) {
+        sender.setTitle("", for: UIControlState())
+        present(imagePicker, animated: true, completion: nil)
         
     }
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
-        imagePicker.dismissViewControllerAnimated(true, completion: nil)
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
+        imagePicker.dismiss(animated: true, completion: nil)
         postImage.image = image
     }
 }
